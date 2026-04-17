@@ -47,8 +47,8 @@ app.use("/api/user", uploadRoutes);
 app.use("/api", clearCookie);
 
 if(process.env.NODE_ENV === "production"){
-  const adminPath = path.resolve(__dirname, "..", "..", "attendance-system", "system-admin", "dist");
-  const clientPath = path.resolve(__dirname, "..", "..", "attendance-system", "system-client", "dist");
+  const adminPath = path.resolve(__dirname, "..", "..", "system-admin", "dist");
+  const clientPath = path.resolve(__dirname, "..", "..", "system-client", "dist");
 
   console.log(adminPath);
   console.log(clientPath);
