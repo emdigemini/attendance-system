@@ -16,9 +16,9 @@ const ProtectedRoute = ({ children }) => {
   if(!authenticated) 
     return <Navigate to="/" replace />;
 
-  if (!authorization) {
-    return <AccessDenied />
-  }
+  // if (!authorization) {
+  //   return <AccessDenied />
+  // }
 
   return children;
 }
