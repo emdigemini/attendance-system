@@ -46,25 +46,32 @@ app.use("/api/schedule", scheduleRoutes);
 app.use("/api/user", uploadRoutes);
 app.use("/api", clearCookie);
 
-if(process.env.NODE_ENV === "production"){
-  const root = process.cwd();
+if (process.env.NODE_ENV === "production") {
 
-  const adminPath = path.resolve(root, "system-admin", "dist");
-  const clientPath = path.resolve(root, "system-client", "dist");
+    const renderRoot = __dirname.includes('src') 
+        ? __dirname.split('src')[0] + 'src' 
+        : __dirname;
 
-  console.log(adminPath);
-  console.log(clientPath);
+    const adminPath = path.join(renderRoot, "system-admin", "dist");
+    const clientPath = path.join(renderRoot, "system-client", "dist");
 
-  app.use("/admin", express.static(adminPath));
-  app.use("/", express.static(clientPath));
- 
-  app.get(/^\/admin/, (req,res) => {
-    res.sendFile(path.join(adminPath,"index.html"));
-  });
+    console.log("--- RENDER PATH DEBUG ---");
+    console.log("Current Dir:", __dirname);
+    console.log("Detected Root:", renderRoot);
+    console.log("Final Admin Path:", adminPath);
+    console.log("Final Client Path:", clientPath);
+    console.log("-------------------------");
 
-  app.get(/.*/, (req,res) => {
-    res.sendFile(path.join(clientPath,"index.html"));
-  });
+    app.use("/admin", express.static(adminPath));
+    app.use("/", express.static(clientPath));
+
+    app.get(/^\/admin/, (req, res) => {
+        res.sendFile(path.join(adminPath, "index.html"));
+    });
+
+    app.get(/.*/, (req, res) => {
+        res.sendFile(path.join(clientPath, "index.html"));
+    });
 }
 
 ( async () => {
