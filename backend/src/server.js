@@ -49,8 +49,8 @@ app.use("/api", clearCookie);
 if(process.env.NODE_ENV === "production"){
   const root = process.cwd();
 
-  const adminPath = path.resolve(root, "attendance-system", "system-admin", "dist");
-  const clientPath = path.resolve(root, "attendance-system", "system-client", "dist");
+  const adminPath = path.resolve(root, "system-admin", "dist");
+  const clientPath = path.resolve(root, "system-client", "dist");
 
   console.log(adminPath);
   console.log(clientPath);
