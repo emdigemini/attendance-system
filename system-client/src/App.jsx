@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import Dashboard from "./components/dashboard/Dashboard"
-import Classrooms from "./components/classrooms/classrooms";
+import Dashboard from "./components/dashboard/Dashboard";
+import Classrooms from "./components/classrooms/Classrooms";
 import Subjects from "./components/subjects/Subjects"
 import { ClassSchedule } from "./components/schedule/Schedule"
 import Attendance from "./components/attendance/Attendance";
