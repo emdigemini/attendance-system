@@ -37,7 +37,7 @@ const TeacherSidebar = ({ close }) => {
         </div>
         <div className="flex flex-col pl-2">
           <p className="font-semibold">{(user?.fname + " " + user?.lname)}</p>
-          <p className="text-[12px] text-[#666]">IT/CS Prof</p>
+          <p className="text-[12px] text-[#666]">FACULTY</p>
         </div>
       </div>
 
