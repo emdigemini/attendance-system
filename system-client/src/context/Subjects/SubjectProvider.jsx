@@ -75,6 +75,7 @@ const SubjectProvider = ({ children }) => {
   // for teacher subjects
   const fetchSubject = async () => {
     setLoading(true);
+    setFilteredSubjects(null);
     try {
       const res = await apiSubject.get(`/all-subject/${user.id}/my-subject`);
       setFilteredSubjects(res.data.subject);
@@ -91,6 +92,7 @@ const SubjectProvider = ({ children }) => {
   // for studetn subjects
   const fetchSubjectForStudent = async () => {
     setLoading(true);
+    setFilteredSubjects(null);
     try {
       const res = await apiStudent.get(`/student-subject/${user?.id}`);
       setFilteredSubjects(res.data.subject);
@@ -104,9 +106,11 @@ const SubjectProvider = ({ children }) => {
 
   const fetchAllSubject = async () => {
     setLoading(true);
+    setFilteredSubjects(null);
     try {
       const res = await apiSubject.get(`/all-subject`);
       setAllSubjects(res.data.subject);
+      setFilteredSubjects(res.data.subject);
     } catch (err) {
       toast.error(err.response?.data?.message);
       setAllSubjects(null);

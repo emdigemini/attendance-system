@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-/* icons */
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { IoPeople } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
@@ -54,13 +53,13 @@ const SubjectList = ({ setClassPrev, setStudentPrev }) => {
 const SubjectCard = ({ setClassPrev, setStudentPrev }) => {
   const { user, authorization } = useContext(authContext);
   const { student, removeSubjectForStudent } = useContext(studentContext);
-  const { filteredSubjects, deleteSubject, editSubject } = useContext(subjectContext);
+  const { filteredSubjects, deleteSubject, editSubject, loading } = useContext(subjectContext);
   const [ overlay, setOverlay ] = useState(null);
   const [ enableMenu, setEnableMenu ] = useState(false);
   const [ isEditing, setIsEditing ] = useState(false);
   const [ delConfirm, setDelConfirm ] = useState(false);
 
-  if(!filteredSubjects) return <p>Loading...</p>;
+  if(!filteredSubjects) return <p>Fetching subjects...</p>;
 
     return (
     <>
