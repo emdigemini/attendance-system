@@ -16,9 +16,9 @@ const ProtectedRoute = ({ children }) => {
   if(!authenticated) 
     return <Navigate to="/" replace />;
 
-  // if (!authorization) {
-  //   return <AccessDenied />
-  // }
+  if (!authorization) {
+    return <AccessDenied />
+  }
 
   return children;
 }
@@ -36,7 +36,7 @@ const AccessDenied = () => {
           <div className="ml-4">
             <h3 className="text-lg font-bold text-gray-900 uppercase tracking-tight">Access Denied</h3>
             <p className="text-sm text-gray-600 mt-1">
-              Please contact the Registrar or System Administrator for access credentials.
+              Please contact the Registrar or System Administrator for access credentials or if you are not login yet please login first.
             </p>
           </div>
         </div>

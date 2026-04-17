@@ -14,14 +14,14 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 
 const App = () => {
   const { authenticated } = useContext(authContext);
-
+  console.log(authenticated);
   return (
     <>
       <Routes>
         <Route path="/" element={
           authenticated 
             ? <Navigate to="/dashboard" replace /> 
-            : <LoginPage />
+            : <LoginPage replace />
         } />
         <Route element={<ProtectedLayout/>}>
           <Route path="/dashboard" element={
