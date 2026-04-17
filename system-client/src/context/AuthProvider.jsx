@@ -52,8 +52,14 @@ const AuthProvider = ({ children }) => {
 
     try {
       const res = await apiAccount.get("/my-account");
-      setAuthenticated(true);
-      setUser(res.data.user);
+
+      if(res.data && res.data.user){
+        setAuthenticated(true);
+        setUser(res.data.user);
+      } else {
+        setAuthenticated(false);
+        setUser(null);
+      }
     } catch (err) {
       if (!err.response || err.response.status !== 401) {
         console.error("Unexpected error:", err);

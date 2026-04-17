@@ -14,7 +14,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 
 const App = () => {
   const { authenticated } = useContext(authContext);
-  console.log(authenticated);
+
   return (
     <>
       <Routes>
