@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import Sidebar from "../components/Sidebar/Sidebar"
+import Sidebar from "../components/sidebar/Sidebar";
 import { useState } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
 
