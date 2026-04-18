@@ -141,6 +141,7 @@ const AttendanceBox = () => {
 const StudentList = () => {
   const { attStudentsFilter, newAttendance, scanAttendance, attResults, attCount, selectedDate, loading } = useContext(attendanceContext);
   const { checkAttendance } = useContext(subjectContext);
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const s = attStudentsFilter?.map(s => s.student._id);
@@ -224,7 +225,12 @@ const StudentList = () => {
                   </span>
                 ) : (
                   <button
-                    className="flex-1 md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 md:py-1 rounded-xl md:rounded-lg text-sm font-bold md:font-medium transition cursor-pointer active:scale-95"
+                    className={`flex-1 md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 md:py-1 rounded-xl md:rounded-lg text-sm font-bold md:font-medium transition active:scale-95
+                    ${selectedDate !== today ? "cursor-not-allowed" : "cursor-pointer"}`}
+                    disabled={
+                      selectedDate !== today
+                      ? true : false
+                    }
                     onClick={() => newAttendance(s.student._id, {
                         attId: attID?.join() || "",
                         studentIDs,
@@ -245,7 +251,12 @@ const StudentList = () => {
                   </span>
                 ) : (
                   <button 
-                    className="flex-1 md:inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 md:py-1 rounded-xl md:rounded-lg text-sm font-bold md:font-medium transition cursor-pointer active:scale-95"
+                    className={`flex-1 md:inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 md:py-1 rounded-xl md:rounded-lg text-sm font-bold md:font-medium transition  active:scale-95
+                    ${selectedDate !== today ? "cursor-not-allowed" : "cursor-pointer"}`}
+                    disabled={
+                      selectedDate !== today
+                      ? true : false
+                    }
                     onClick={() => newAttendance(s.student._id, {
                         attId: attID?.join() || "",
                         studentIDs,

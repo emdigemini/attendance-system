@@ -5,7 +5,7 @@ import authContext from "../context/authContext";
 
 const LoginPage = () => {
   const [showPass, setShowPass] = useState(false);
-  const { setUsername, setPassword, username, password, loginAccount } = useContext(authContext);
+  const { setUsername, setPassword, username, password, loginAccount, loading } = useContext(authContext);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden font-sans">
@@ -78,18 +78,21 @@ const LoginPage = () => {
                 Enter account password
               </label>
               
-              <div className="absolute right-8 top-4 flex gap-3">
-                {password.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setShowPass(!showPass)}
-                    className="text-gray-400 hover:text-[#c43c2d] transition-colors"
-                  >
-                    {!showPass ? <FaEyeSlash /> : <FaEye />}
-                  </button>
-                )}
-              </div>
-              <TbPassword className="absolute right-2 top-4 text-gray-400 group-focus-within:text-[#c43c2d] transition-colors" />
+              <div className="absolute right-8 top-4 flex gap-3"></div>
+              
+              {password.length > 0 
+              ? (
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="text-gray-400 absolute right-2 top-4 hover:text-[#c43c2d] transition-colors"
+                >
+                  {!showPass ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              )
+              : <TbPassword className="absolute right-2 top-4 text-gray-400 group-focus-within:text-[#c43c2d] transition-colors" />
+              }
+              
             </div>
 
             <div className="flex justify-end">
@@ -102,7 +105,9 @@ const LoginPage = () => {
               className="w-full bg-[#c43c2d] py-3 sm:py-4 text-white font-bold uppercase rounded-xl shadow-lg shadow-red-200 hover:bg-[#a32e22] active:scale-[0.98] transition-all mt-4 cursor-pointer"
               onClick={() => loginAccount()}
             >
-              Log In
+              {loading
+                ? "Logging in..."
+                : "Log In"} 
             </button>
             <span className="text-xs font-medium text-slate-500 hover:text-[#c43c2d]">
               Need an account? 

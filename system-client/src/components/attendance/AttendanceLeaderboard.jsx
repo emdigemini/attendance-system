@@ -2,20 +2,118 @@ import attendanceContext from "../../context/Attendance/attendanceContext";
 import subjectContext from "../../context/Subjects/subjectContext";
 import defaultPfp from "../../../../images/placeholder-user.webp";
 import Loading from "../Loading";
+import { TbSortAscendingNumbers, TbSortDescendingNumbers, TbSortAscendingLetters, TbSortDescendingLetters, TbSortAscendingShapesFilled, TbSortDescendingShapesFilled } from "react-icons/tb";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sliceToOne, transformFirstVal } from "../../lib/utils";
 
 const AttendanceLeaderboard = () => {
+  const { attLeaderboardFilter, setAttLeaderboardFilter } = useContext(attendanceContext);
+  const [ ascendSortName, setAscendSortName ] = useState(false);
+  const [ ascendSortYear, setAscendSortYear ] = useState(false);
+  const [ ascendSortCourse, setAscendSortCourse ] = useState(false);
+  const [ ascendSortAbsent, setAscendSortAbsent ] = useState(false);
+
+  const ascendFilter = (val) => {
+    if(val === "name"){
+      setAscendSortName(prev => !prev);
+      if (ascendSortName) {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => a.lname.localeCompare(b.lname));
+        setAttLeaderboardFilter(ascendResults);
+      } else {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => b.lname.localeCompare(a.lname));
+        setAttLeaderboardFilter(ascendResults);
+      }
+    } 
+    else if(val === "year"){
+      setAscendSortYear(prev => !prev);
+      if (ascendSortYear) {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => Number(sliceToOne(a.student.year)) - Number(sliceToOne(b.student.year)));
+        setAttLeaderboardFilter(ascendResults);
+      } else {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => Number(sliceToOne(b.student.year)) - Number(sliceToOne(a.student.year)));
+        setAttLeaderboardFilter(ascendResults);
+      }
+    }
+    else if(val === "course"){
+      setAscendSortCourse(prev => !prev);
+      if (ascendSortCourse) {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => a.student.course.localeCompare(b.student.course));
+        setAttLeaderboardFilter(ascendResults);
+      } else {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => b.student.course.localeCompare(a.student.course));
+        setAttLeaderboardFilter(ascendResults);
+      }
+    }
+    else if(val === "absent"){
+      setAscendSortAbsent(prev => !prev);
+      if (ascendSortAbsent) {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => a.student.absent - b.student.absent);
+        setAttLeaderboardFilter(ascendResults);
+      } else {
+        const ascendResults = attLeaderboardFilter.sort((a, b) => b.student.absent - a.student.absent);
+        setAttLeaderboardFilter(ascendResults);
+      }
+    }
+  }
+
   return (
     <table className="min-w-full block md:table">
       <thead className="hidden md:table-header-group bg-gray-50 border-b border-gray-200">
         <tr>
           <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Photo</th>
-          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Yr/BLK</th>
-          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Course</th>
-          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Total Absences</th>
+          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-default">
+            <div className="flex items-center justify-center gap-4">
+              <p>Name</p>
+              <button className="cursor-pointer hover:bg-black/15"
+              onClick={() => ascendFilter("name")}>
+                {ascendSortName
+                  ? <TbSortDescendingLetters size={16} />
+                  : <TbSortAscendingLetters size={16} />
+                }
+                
+              </button>
+            </div>
+          </th>
+          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <div className="flex items-center justify-center gap-4">
+              <p>Yr/Blk</p>
+              <button className="cursor-pointer hover:bg-black/15"
+              onClick={() => ascendFilter("year")}>
+                {ascendSortYear
+                  ? <TbSortDescendingShapesFilled size={16} />
+                  : <TbSortAscendingShapesFilled size={16} />
+                }
+                
+              </button>
+            </div>
+          </th>
+          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <div className="flex items-center justify-center gap-4">
+              <p>Course</p>
+              <button className="cursor-pointer hover:bg-black/15"
+              onClick={() => ascendFilter("course")}>
+                {ascendSortYear
+                  ? <TbSortDescendingShapesFilled size={16} />
+                  : <TbSortAscendingShapesFilled size={16} />
+                }
+                
+              </button>
+            </div>
+          </th>
+          <th className="text-center px-4 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <div className="flex items-center justify-center gap-4">
+              <p>Total Absences</p>
+              <button className="cursor-pointer hover:bg-black/15"
+              onClick={() => ascendFilter("absent")}>
+                {ascendSortAbsent
+                  ? <TbSortDescendingNumbers size={16} />
+                  : <TbSortAscendingNumbers size={16} />
+                }
+                
+              </button>
+            </div>
+          </th>
           <th className="text-center px-4 py-4 text-green-500"></th>
         </tr>
       </thead>
@@ -43,7 +141,6 @@ const StudentList = () => {
       {attLeaderboardFilter?.map((s, idx) => {
 
         return (
-          /* TR becomes a Card on mobile */
           <tr key={s._id} className="block md:table-row bg-white md:bg-transparent border border-gray-200 md:border-b md:border-gray-100 rounded-2xl md:rounded-none p-4 md:p-0 hover:bg-gray-50 transition-colors">
             
             {/* Photo & Name Wrapper for Mobile Layout */}

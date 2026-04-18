@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
   const [ employmentType, setEmploymentType ] = useState("");
 
   const loginAccount = async () => {
+    setLoading(true);
     try {
       const res = await apiAccount.post("/login", { username, password });
       toast.success(res.data?.message);
@@ -33,10 +34,13 @@ const AuthProvider = ({ children }) => {
       setPassword("");
     } catch (err) {
       toast.error(err.response?.data?.message || "Server failed, please refresh the page");
+    } finally {
+      setLoading(false);
     }
   }
 
   const logoutAccount = async () => {
+    setLoading(true);
     try {
       const res = await apiAccount.post("/logout");
       toast.success(res.data?.message);
@@ -44,6 +48,8 @@ const AuthProvider = ({ children }) => {
       setUser(null);
     } catch (err) {
       toast.error(err.response?.data?.message || "Logout failed");
+    } finally {
+      setLoading(false);
     }
   }
 
