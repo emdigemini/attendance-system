@@ -232,7 +232,7 @@ export const CalendarGrid = ({ currentDate }) => {
             {item.day}
             
             {/* Subject List */}
-            {viewSub?.day === item.day
+            {item.hasClass && viewSub?.day === item.day
               && 
             <div className="absolute bottom-1/2 left-1/2 -translate-x-1/2 mb-2 z-30 
               w-[35vw] max-w-55 p-3 rounded-xl border border-gray-100 

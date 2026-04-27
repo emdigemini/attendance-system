@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(cookieParser());
 if(process.env.NODE_ENV !== "production"){
   app.use(cors({
-    origin: ["http://localhost:5174", "http://localhost:5173", "http://192.168.1.5:5173"],
+    origin: ["http://localhost:5174", "http://localhost:5173", "http://localhost:5175", "http://192.168.1.5:5173"],
     credentials: true 
   }))
 }

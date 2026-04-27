@@ -99,10 +99,6 @@ const AuthProvider = ({ children }) => {
         employmentType
       };
 
-      if (pfpUrl) {
-        payload.pfp = pfpUrl;
-      }
-
       const res = await api.put(
         `/update-info/${user?.id}`,
         payload

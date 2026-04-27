@@ -137,10 +137,10 @@ const EditProfile = () => {
       if (fileInputRef.current?.files[0]) {
         setLoading(true);
         toastId = toast.loading("Saving profile...");
-        uploadedUrl = await uploadPfp(fileInputRef.current.files[0]);
+        await uploadPfp(fileInputRef.current.files[0]);
       }
       
-      await saveUserProfile(uploadedUrl); 
+      await saveUserProfile(); 
     }
 
     if(toastId)
