@@ -20,6 +20,13 @@ export const SearchBar = ({ type }) => {
     setSearchStudentAtt(value);
     const name = value.toLowerCase();
 
+    if (!name) {
+      setAttStudentsFilter(attStudents);
+      setClassStudentsFiltered(classStudents)
+      setAttLeaderboardFilter(attLeaderboard);
+      return;
+    }
+
     let filtered = attStudents || [];
     let filtered2 = classStudents || [];
     let filteredLeaderboard = attLeaderboard || [];
@@ -61,6 +68,7 @@ export const SearchBar = ({ type }) => {
   const clearSearchStudents = () => {
     setSearchStudentAtt("");
     setAttStudentsFilter(attStudents);
+    setAttLeaderboardFilter(attLeaderboard);
   }
 
   const clearSearchSubjects = () => {
