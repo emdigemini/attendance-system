@@ -4,6 +4,7 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { MdManageAccounts, MdSubject } from "react-icons/md";
 import { useContext } from "react";
 import adminContext from "../context/admin/adminContext";
+import logoImg from "/image/escr-logo.png";
 
 const SideBar = ({ close }) => {
   const { logoutAdmin, adminData } = useContext(adminContext);
@@ -24,7 +25,7 @@ const SideBar = ({ close }) => {
       {/* Header */}
       <header className="px-4 py-6 flex gap-3 items-center">
         <div className="h-16 w-16">
-          <img src="/image/escr-logo.png" className="h-full w-full" />
+          <img src={logoImg || "/image/escr-logo.png"} className="h-full w-full" />
         </div>
         <div>
           <h1 className="font-bold text-3xl">ESCR</h1>

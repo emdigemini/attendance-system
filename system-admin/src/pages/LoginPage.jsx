@@ -1,5 +1,6 @@
 import { useContext } from "react"
-import adminContext from "../context/admin/adminContext"
+import adminContext from "../context/admin/adminContext";
+import bgImg from "/image/escr-bg.jpg";
 
 const LoginPage = () => {
   const { setUsername, setPassword, username, password, loginAdmin, loading } = useContext(adminContext);
@@ -11,7 +12,7 @@ const LoginPage = () => {
         <img 
           className="h-full w-full object-cover object-center grayscale-[0.2] brightness-[0.8]" 
           draggable={false}
-          src="/image/escr-bg.jpg" 
+          src={bgImg || "/image/escr-bg.jpg"} 
           alt="ESCR Background" 
         />
       </div>

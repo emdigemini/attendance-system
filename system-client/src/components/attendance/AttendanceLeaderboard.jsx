@@ -48,10 +48,11 @@ const AttendanceLeaderboard = () => {
     else if(val === "absent"){
       setAscendSortAbsent(prev => !prev);
       if (ascendSortAbsent) {
-        const ascendResults = attLeaderboardFilter.sort((a, b) => a.student.absent - b.student.absent);
+         const ascendResults = attLeaderboardFilter.sort((a, b) => b.student.absent - a.student.absent);
         setAttLeaderboardFilter(ascendResults);
       } else {
-        const ascendResults = attLeaderboardFilter.sort((a, b) => b.student.absent - a.student.absent);
+       
+        const ascendResults = attLeaderboardFilter.sort((a, b) => a.student.absent - b.student.absent);
         setAttLeaderboardFilter(ascendResults);
       }
     }
