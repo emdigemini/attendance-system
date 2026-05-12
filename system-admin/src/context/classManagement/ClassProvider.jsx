@@ -92,7 +92,7 @@ const ClassProvider = ({ children }) => {
     const results = filtered.filter(x => 
       (!val.acYear || x.acYear === val.acYear) &&
       (!val.sem || x.sem === val.sem) &&
-      (!val.year || x.year.toLowerCase() === val.year) &&
+      (!val.year || x.year === val.year) &&
       (!val.block || x.block === val.block) &&
       (!val.course || x.course === val.course)
     );

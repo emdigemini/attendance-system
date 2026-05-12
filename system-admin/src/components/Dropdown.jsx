@@ -19,7 +19,6 @@ const Dropdown = ({ type, dropdownType, position, stretch }) => {
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const selectList = (val) => {
-    val = val.toLowerCase();
 
     const updated =
       dropdownType.acYear ? { acYear: val }
