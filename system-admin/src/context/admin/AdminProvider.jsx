@@ -17,7 +17,6 @@ const AdminProvider = ({ children }) => {
     try {
       const res = await apiAdmin.post("/login-admin", { username, password });
       toast.success(res.data?.message);
-      console.log(res.data);
       await checkAuth({ isLoading: true });
       setUsername("");
       setPassword("");
