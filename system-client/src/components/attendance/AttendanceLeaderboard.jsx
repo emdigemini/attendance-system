@@ -6,6 +6,7 @@ import { TbSortAscendingNumbers, TbSortDescendingNumbers, TbSortAscendingLetters
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
 import { sliceToOne, transformFirstVal } from "../../lib/utils";
+import authContext from "../../context/authContext";
 
 const AttendanceLeaderboard = () => {
   const { attLeaderboardFilter, setAttLeaderboardFilter } = useContext(attendanceContext);
@@ -126,13 +127,16 @@ const AttendanceLeaderboard = () => {
 }
 
 const StudentList = () => {
+  const { user } = useContext(authContext);
   const { attLeaderboardFilter, newAttendance, fetchAttendanceLeaderboard, attResults, attCount, selectedDate, loading } = useContext(attendanceContext);
   const { checkAttendance } = useContext(subjectContext);
 
   useEffect(() => {
-    fetchAttendanceLeaderboard()
+    if (user?.id) {
+      fetchAttendanceLeaderboard()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user?.id]);
 
   if (loading) return <tr><td className="p-10 text-center"><Loading val="students" /></td></tr>;
   if (attLeaderboardFilter?.length === 0) return <tr><td className="p-10 text-center text-gray-500 italic">No students found.</td></tr>;

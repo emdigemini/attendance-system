@@ -99,7 +99,7 @@ const AttendanceProvider = ({ children }) => {
       fetchAttRate()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?.id]);
 
   return (
     <attendanceContext.Provider value={{ newAttendance, scanAttendance, attResults, setAttResults, selectedDate, setSelectedDate, attCount, setAttCount, fetchStudentsForAttendance, attStudents, attStudentsFilter, setAttStudentsFilter, loading, attRate, setAttRate,

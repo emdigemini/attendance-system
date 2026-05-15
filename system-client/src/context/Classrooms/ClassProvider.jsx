@@ -49,6 +49,8 @@ const ClassProvider = ({ children }) => {
       setFilteredClass(classes.data.classes);
     } catch (err) {
       console.log("Error failed fetching classes", err);
+      console.log(err);
+      toast.error(err?.response?.data?.message)
     } finally {
       setLoading(false);
     }
@@ -115,7 +117,7 @@ const ClassProvider = ({ children }) => {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, authorization]);
+  }, [user?.id, authorization]);
 
   return (
     <classContext.Provider value={{ classList, setClassList, filteredClass, setFilteredClass, newClass, setNewClass, form, setForm, fetchClasses, loading, searchClass, setSearchClass, dropdownSelect, setDropdownSelect, filterClass, setFilterList, filterList, joinClassroom, fetchMyClassroom, removeClassroom, fetchStudentsFromClass, classStudents, studentPrev, setStudentPrev, classStudentsFiltered, setClassStudentsFiltered, classPrev, setClassPrev

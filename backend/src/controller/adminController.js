@@ -27,7 +27,7 @@ export const loginAdmin = async (req, res) => {
       {expiresIn: process.env.JWT_EXPIRES_IN || `${DAYS}D`}
     );
 
-    res.cookie("admin_token", token, {
+    res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
       secure: true,
@@ -50,7 +50,7 @@ export const loginAdmin = async (req, res) => {
 
 export const logoutAdmin = async (_, res) => {
   try {
-    res.clearCookie("admin_token", {
+    res.clearCookie("token", {
       httpOnly: true,
       sameSite: "lax",
       secure: true

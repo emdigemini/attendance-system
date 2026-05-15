@@ -76,9 +76,11 @@ const AdminProvider = ({ children }) => {
   // };
 
   useEffect(() => {
-    checkAuth({ isLoading: true });
+    if(!authenticated){
+      checkAuth({ isLoading: true });
+    }
     // clearCookie()
-  }, [])
+  }, [authenticated])
 
   return (
     <adminContext.Provider value={{ authenticated, loading, checkAuth, setUsername, setPassword,

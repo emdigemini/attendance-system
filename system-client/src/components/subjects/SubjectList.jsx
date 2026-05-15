@@ -212,15 +212,15 @@ const SubjectCard = ({ setClassPrev, setStudentPrev }) => {
                     </div>
                   )}
                   {delConfirm === s._id && (
-                    <div class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/50 rounded-lg text-white p-4 text-center">
-                      <p class="mb-4 font-medium">Confirm delete subject?</p>
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/50 rounded-lg text-white p-4 text-center">
+                      <p className="mb-4 font-medium">Confirm delete subject?</p>
                       
-                      <div class="flex gap-2">
-                        <button class="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded text-sm transition"
+                      <div className="flex gap-2">
+                        <button className="px-4 py-2 bg-gray-500 hover:bg-gray-600 rounded text-sm transition"
                         onClick={() => setDelConfirm(false)}>
                           Cancel
                         </button>
-                        <button class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm cursor-pointer transition"
+                        <button className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-sm cursor-pointer transition"
                         onClick={() => deleteSubject(delConfirm)}>
                           Confirm
                         </button>

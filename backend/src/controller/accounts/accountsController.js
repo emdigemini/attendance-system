@@ -143,7 +143,7 @@ export const loginAccount = async (req, res) => {
     );
 
 
-    res.cookie("client_token", token, {
+    res.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
@@ -173,7 +173,7 @@ export const loginAccount = async (req, res) => {
 
 export const logoutAccount = async (_, res) => {
   try {
-    res.clearCookie("client_token", {
+    res.clearCookie("token", {
       httpOnly: true,
       secure: true,
       sameSite: "lax"

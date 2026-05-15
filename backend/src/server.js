@@ -16,23 +16,28 @@ import teacherRoutes from "./routes/teacherRoutes.js";
 import attendanceRoutes from "./routes/attendanceRoutes.js";
 import scheduleRoutes from "./routes/scheduleRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js"
+import rateLimiter from "./middleware/rateLimiter.js";
+import authentication from "./middleware/authentication.js";
 
 const app = express();
 const PORT = process.env.PORT || 5002;
 const __dirname = path.resolve();
+const allowedOrigins = process.env.MY_LOCAL_HOST 
+  ? process.env.MY_LOCAL_HOST.split(",") : [];
 
 app.use(express.urlencoded({ extended: true }));
 
-process.setMaxListeners(23);
 // middleware
 app.use(express.json());
 app.use(cookieParser());
 if(process.env.NODE_ENV !== "production"){
   app.use(cors({
-    origin: ["http://localhost:5174", "http://localhost:5173", "http://localhost:5175", "http://192.168.1.5:5173"],
+    origin: ["http://localhost:5174","http://localhost:5173","http://localhost:5175"
+    ],
     credentials: true 
   }))
 }
+app.use(rateLimiter);
 
 // routes 
 app.use("/api/accounts", accountRoutes);

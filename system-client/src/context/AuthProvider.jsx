@@ -116,8 +116,10 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkAuth({ showLoading: true });
-  }, []);
+    if(!authenticated){
+      checkAuth({ showLoading: true });
+    }
+  }, [authenticated]);
 
   useEffect(() => {
     if(user?.accountType === "Teacher")
@@ -125,7 +127,7 @@ const AuthProvider = ({ children }) => {
     else if(user?.accountType === "Student")
       setAuthorization(1);
     else setAuthorization(null);
-  }, [user]);
+  }, [user?.accountType]);
 
   return (
     <authContext.Provider value={{ loginAccount, logoutAccount, user, authenticated, loading, 

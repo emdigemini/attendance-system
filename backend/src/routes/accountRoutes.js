@@ -17,7 +17,7 @@ router.delete("/user-accounts/:id", deleteAccount);
 /* for client routes */
 router.post("/login", loginAccount);
 router.post("/logout", logoutAccount);
-router.get("/my-account", authentication("client"), async (req, res) => {
+router.get("/my-account", authentication, async (req, res) => {
   try {
     let profile = null;
     const user = await Account.findById(req.user.id);

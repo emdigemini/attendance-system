@@ -6,7 +6,7 @@ import authentication from "../middleware/authentication.js";
 
 const router = express.Router();
 
-router.post("/upload-pfp", authentication("client"), upload.single("pfp"), async (req, res) => {
+router.post("/upload-pfp", authentication, upload.single("pfp"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });

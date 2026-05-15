@@ -142,12 +142,13 @@ const ScheduleProvider = ({ children }) => {
         if(!classList || !mySubjects) return
         getStudentSchedule();
       } else if(authorization === 2){
+        console.log(mySubjects);
         if(!mySubjects) return
         getTeacherSchedule();
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, authorization, classList, mySubjects]);
+  }, [user?.id, authorization, classList, mySubjects]);
 
   useEffect(() => {
     if(authorization === 1 || authorization === 2){

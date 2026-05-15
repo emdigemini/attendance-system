@@ -69,7 +69,7 @@ const LoginPage = () => {
               <button 
                 type="submit"
                 disabled={loading}
-                className="relative w-full py-4 bg-red-700 hover:bg-red-600 disabled:bg-gray-700 text-white text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase transition-all cursor-pointer duration-300 group mt-2 overflow-hidden shadow-lg"
+                className="relative w-full py-4 bg-red-700 hover:bg-red-600 disabled:bg-gray-700 text-white text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase transition-all cursor-pointer duration-300 group mt-2 overflow-hidden shadow-lg" 
               >
                 <span className="relative z-10">
                   {loading ? "Processing..." : "Authorize Access"}

@@ -2,14 +2,18 @@ import { useContext, useEffect } from "react";
 import { generatePassword } from "../../lib/autoGenerate";
 import accountContext from "../../context/userManagement/AccountContext";
 import { ClipLoader } from "react-spinners";
+import adminContext from "../../context/admin/adminContext";
 
 const AccountList = () => {
   const { fetchUsers, loading, filteredUsers } = useContext(accountContext);
+  const { adminData } = useContext(adminContext);
 
   useEffect(() => {
-    fetchUsers()
+    if (adminData?.id) {
+      fetchUsers()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [adminData?.id]);
 
   return (
     <div className="bg-white border-2 border-black/10 rounded-2xl overflow-hidden shadow-sm">

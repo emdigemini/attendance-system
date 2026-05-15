@@ -76,7 +76,7 @@ const StudentProvider = ({ children }) => {
         fetchStudentInfo(user?.id);
       }
     }
-  }, [user, authorization]);
+  }, [user?.id, authorization]);
 
     return (
     <studentContext.Provider value={{ users, fetchStudentsForClass, fetchStudentInfo, addSubjectForStudent, removeSubjectForStudent, student }}>

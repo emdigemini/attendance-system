@@ -6,6 +6,7 @@ import { SearchBar } from "../controllers/Controllers"
 import classContext from "../../context/classManagement/ClassContext"
 import ClassList from "../classManagement/ClassList.jsx"
 import { thisYear } from "../../lib/utils.js"
+import adminContext from "../../context/admin/adminContext.jsx"
 
 const Dashboard = () => {
   const { delConfirm, delConfirm2, resetConfirm, passwordReset } = useContext(accountContext);
@@ -67,12 +68,15 @@ const Dashboard = () => {
 
 const ModalCards = () => {
   const { users } = useContext(accountContext);
+  const { adminData } = useContext(adminContext);
   const { classList, fetchClasses } = useContext(classContext);
 
   useEffect(() => {
-    fetchClasses();
+    if(adminData?.id){
+      fetchClasses();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [adminData?.id]);
 
   const countTotal = (type) => {
     return (users ?? []).reduce((acc, user) => 

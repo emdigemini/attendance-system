@@ -9,7 +9,7 @@ admin.post("/login-admin", loginAdmin);
 admin.post("/logout-admin", logoutAdmin);
 admin.post("/new-admin", createAdmin);
 admin.put("/edit-admin/:id", editAdmin);
-admin.get("/access-admin", authentication("admin"), async (req, res) => {
+admin.get("/access-admin", authentication, async (req, res) => {
   try {
     const admin = await Admin.findById(req.user.id);
     if(!admin)

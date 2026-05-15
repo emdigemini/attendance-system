@@ -184,17 +184,18 @@ const SubjectProvider = ({ children }) => {
   
   useEffect(() => {
     if (user?.id) {
-      fetchAllSubject();
       if(authorization === 1){
+        fetchAllSubject();
         fetchSubjectForStudent();
       }
       if(authorization === 2){
+        fetchAllSubject();
         fetchSubject();
         fetchSubForAttendance(user?.id);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, authorization]);
+  }, [user?.id, authorization]);
 
   // useEffect(() => {
   //   console.log(mySubjects);
