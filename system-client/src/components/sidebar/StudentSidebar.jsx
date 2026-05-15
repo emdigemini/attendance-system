@@ -8,6 +8,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import { useContext } from "react";
 import authContext from "../../context/authContext";
 import { transformFirstVal } from "../../lib/utils";
+import defaultPfp from "../../../../images/placeholder-user.webp";
 
 const courseLabel = {
   BSIT: "Information Technology",
@@ -45,7 +46,7 @@ const StudentSidebar = ({ close }) => {
 
       <div className="flex bg-[#FDEEEA] p-2 m-4 rounded-md">
         <div className="h-10 w-10 overflow-hidden rounded-4xl bg-white">
-          <img className="h-full w-full object-cover object-center" src={user?.pfp || null} alt="" />
+          <img className="h-full w-full object-cover object-center" src={user?.pfp || defaultPfp} alt="" />
         </div>
         <div className="flex flex-col pl-2">
           <p className="font-semibold">{(user?.fname + " " + user?.lname)}</p>
