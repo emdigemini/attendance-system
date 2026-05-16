@@ -181,28 +181,13 @@ const SubjectProvider = ({ children }) => {
     );
     setFilteredSubjects(results);
   }
-  
-  useEffect(() => {
-    if (user?.id) {
-      if(authorization === 1){
-        fetchAllSubject();
-        fetchSubjectForStudent();
-      }
-      if(authorization === 2){
-        fetchAllSubject();
-        fetchSubject();
-        fetchSubForAttendance(user?.id);
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, authorization]);
 
   // useEffect(() => {
   //   console.log(mySubjects);
   // }, [mySubjects]);
 
   return (
-    <subjectContext.Provider value={{ setMySubjects, setFilteredSubjects, setSubjectForm, addSubject,
+    <subjectContext.Provider value={{ setMySubjects, setFilteredSubjects, setSubjectForm, addSubject, fetchAllSubject, 
     fetchSubject, previewSubject, getClassForSubject, fetchSubjectForStudent,
     loading, allSubjects, mySubjects, filteredSubjects, subjectForm, subInfo, classView, attSubject, isOpen, setIsOpen, checkAttendance, setCheckAttendance, attSubjectFilter, setAttSubjectFilter,
     filterSub, filterSubAtt, filterListSub, setFilterListSub, allSubs, setAllSubs, fetchSubForAttendance, deleteSubject, editSubject, subPrev, setSubPrev }}>

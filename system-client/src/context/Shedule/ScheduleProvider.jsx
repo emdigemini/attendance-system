@@ -136,29 +136,10 @@ const ScheduleProvider = ({ children }) => {
     setTodaySched(filterSched);
   }
 
-  useEffect(() => {
-    if(user?.id){
-      if(authorization === 1){
-        if(!classList || !mySubjects) return
-        getStudentSchedule();
-      } else if(authorization === 2){
-        console.log(mySubjects);
-        if(!mySubjects) return
-        getTeacherSchedule();
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, authorization, classList, mySubjects]);
-
-  useEffect(() => {
-    if(authorization === 1 || authorization === 2){
-      getTodaySchedule();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authorization, mySched])
-
     return (
-    <scheduleContext.Provider value={{ loading, formData, setFormData, newSchedule, mySched, editSchedule, deleteSchedule, todaySched }}>
+    <scheduleContext.Provider value={{ loading, formData, setFormData, newSchedule, mySched, editSchedule, deleteSchedule, todaySched, getTodaySchedule,
+    getTeacherSchedule, getStudentSchedule
+     }}>
       { children }
     </scheduleContext.Provider>
   )

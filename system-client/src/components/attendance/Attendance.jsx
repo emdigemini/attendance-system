@@ -17,9 +17,21 @@ import { ChessKing, ChevronDown, ChevronUp } from 'lucide-react';
 import { FiRefreshCcw } from "react-icons/fi";
 import Loading from "../Loading.jsx";
 import authContext from "../../context/authContext.jsx";
+import classContext from "../../context/Classrooms/classContext.jsx";
 
 const Attendance = () => {
-  const { checkAttendance } = useContext(subjectContext);
+  const { user, authorization } = useContext(authContext);
+  const { classList } = useContext(classContext);
+  const { checkAttendance, fetchSubForAttendance } = useContext(subjectContext);
+
+  useEffect(() => {
+    if(user?.id){
+      if(authorization === 2){
+        fetchSubForAttendance(user?.id);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, authorization, classList]);
 
   return (
     <div className="relative h-screen flex flex-col">

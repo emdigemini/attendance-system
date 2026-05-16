@@ -1,4 +1,4 @@
-import { useState, useMemo, useContext } from 'react';
+import { useState, useMemo, useContext, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FaRegCalendarPlus } from "react-icons/fa";
 import { FaRegCalendarCheck } from "react-icons/fa";
@@ -8,12 +8,40 @@ import scheduleContext from '../../context/Shedule/scheduleContext';
 import CreateSchedule from './CreateSchedule';
 import ScheduleManagement from './ScheduleManagement';
 import { transformTimezone } from '../../lib/utils';
+import subjectContext from '../../context/Subjects/subjectContext';
+import classContext from '../../context/Classrooms/classContext';
 
 export const ClassSchedule = () => {
   const { user, authorization } = useContext(authContext);
+  const { mySubjects } = useContext(subjectContext);
+  const { classList } = useContext(classContext);
+  const { 
+    getTodaySchedule, mySched, getTeacherSchedule, getStudentSchedule
+
+   } = useContext(scheduleContext);
   const [ isCreateOpen, setIsCreateOpen ] = useState(false);
   const [ isManageOpen, setIsManageOpen ] = useState(false);
-  
+
+  useEffect(() => {
+    if(user?.id){
+      if(authorization === 1){
+        if(!classList || !mySubjects) return
+        getStudentSchedule();
+      } else if(authorization === 2){
+        if(!mySubjects) return
+        getTeacherSchedule();
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, authorization, classList, mySubjects]);
+
+  useEffect(() => {
+      if(authorization === 1 || authorization === 2){
+        getTodaySchedule();
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authorization, mySched])
+
   return (
     <div id="schedule" className="w-full animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end p-4 md:p-8 pt-8 md:pt-12 gap-4">

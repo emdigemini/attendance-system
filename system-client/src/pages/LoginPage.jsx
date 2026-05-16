@@ -7,6 +7,14 @@ const LoginPage = () => {
   const [showPass, setShowPass] = useState(false);
   const { setUsername, setPassword, username, password, loginAccount, loading } = useContext(authContext);
 
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    if (loading) return
+
+    await loginAccount()
+  }
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden font-sans">
       {/* Background Layer */}
@@ -38,7 +46,9 @@ const LoginPage = () => {
           </div>
 
           {/* Form Fields */}
-          <div className="flex flex-col gap-5 sm:gap-6 w-full">
+          <form className="flex flex-col gap-5 sm:gap-6 w-full"
+            onSubmit={handleLogin}
+          >
             
             {/* Username Field */}
             <div className="relative group">
@@ -102,8 +112,8 @@ const LoginPage = () => {
             </div>
 
             <button 
+              type="submit"
               className="w-full bg-[#c43c2d] py-3 sm:py-4 text-white font-bold uppercase rounded-xl shadow-lg shadow-red-200 hover:bg-[#a32e22] active:scale-[0.98] transition-all mt-4 cursor-pointer"
-              onClick={() => loginAccount()}
             >
               {loading
                 ? "Logging in..."
@@ -113,7 +123,7 @@ const LoginPage = () => {
               Need an account? 
               Contact School Administrator
             </span>
-          </div>
+          </form>
 
           {/* Footer */}
           <p className="text-center text-[10px] sm:text-xs text-gray-400 mt-8 sm:mt-10">

@@ -18,9 +18,24 @@ import classContext from "../../context/Classrooms/classContext.jsx";
 import Loading from "../Loading.jsx";
 
 const Subjects = () => {
-  const { authorization } = useContext(authContext);
+  const { authorization, user } = useContext(authContext);
   const [ createSubject, setCreateSubject ] = useState(false);
+  const{ fetchAllSubject, fetchSubjectForStudent, fetchSubject } = useContext(subjectContext);
   const {  studentPrev, setStudentPrev, classPrev, setClassPrev } = useContext(classContext);
+
+  useEffect(() => {
+    if (user?.id) {
+      if(authorization === 1){
+        fetchAllSubject();
+        fetchSubjectForStudent();
+      }
+      if(authorization === 2){
+        fetchAllSubject();
+        fetchSubject();
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, authorization]);
 
   return (
     <div className="min-h-screen flex flex-col">
