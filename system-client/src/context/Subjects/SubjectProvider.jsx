@@ -5,6 +5,7 @@ import { apiStudent, apiSubject } from "../../lib/axios.js";
 import authContext from "../authContext.jsx";
 import classContext from "../Classrooms/classContext.jsx";
 import studentContext from "../Students/studentContext.jsx";
+import { useCallback } from "react";
 
 
 const SubjectProvider = ({ children }) => {
@@ -14,7 +15,7 @@ const SubjectProvider = ({ children }) => {
   const [ attSubjectFilter, setAttSubjectFilter ] = useState([]);
   const [ filterListSub, setFilterListSub ] = useState({});
   
-  const [ allSubs, setAllSubs ] = useState(0);
+  const [ viewMode, setViewMode ] = useState(0);
   const [ allSubjects, setAllSubjects ] = useState(null);
   const [ mySubjects, setMySubjects ] = useState(null);
   const [ filteredSubjects, setFilteredSubjects ] = useState(null);
@@ -73,7 +74,7 @@ const SubjectProvider = ({ children }) => {
   }
 
   // for teacher subjects
-  const fetchSubject = async () => {
+  const fetchSubject = useCallback(async () => {
     setLoading(true);
     setFilteredSubjects(null);
     try {
@@ -87,10 +88,10 @@ const SubjectProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  }, [user?.id]) 
 
   // for studetn subjects
-  const fetchSubjectForStudent = async () => {
+  const fetchSubjectForStudent = useCallback(async () => {
     setLoading(true);
     setFilteredSubjects(null);
     try {
@@ -102,9 +103,9 @@ const SubjectProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  }, [user?.id])
 
-  const fetchAllSubject = async () => {
+  const fetchAllSubject = useCallback(async () => {
     setLoading(true);
     setFilteredSubjects(null);
     try {
@@ -117,7 +118,7 @@ const SubjectProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }
+  }, [])
 
   const getClassForSubject = async (id) => {
     setLoading(true);
@@ -166,7 +167,7 @@ const SubjectProvider = ({ children }) => {
 
   const filterSub = (val) => {
     let filtered;
-    if(allSubs === 0){
+    if(viewMode === 0){
       filtered = mySubjects;
     } else {
       filtered = allSubjects;
@@ -182,15 +183,11 @@ const SubjectProvider = ({ children }) => {
     setFilteredSubjects(results);
   }
 
-  // useEffect(() => {
-  //   console.log(mySubjects);
-  // }, [mySubjects]);
-
   return (
     <subjectContext.Provider value={{ setMySubjects, setFilteredSubjects, setSubjectForm, addSubject, fetchAllSubject, 
     fetchSubject, previewSubject, getClassForSubject, fetchSubjectForStudent,
     loading, allSubjects, mySubjects, filteredSubjects, subjectForm, subInfo, classView, attSubject, isOpen, setIsOpen, checkAttendance, setCheckAttendance, attSubjectFilter, setAttSubjectFilter,
-    filterSub, filterSubAtt, filterListSub, setFilterListSub, allSubs, setAllSubs, fetchSubForAttendance, deleteSubject, editSubject, subPrev, setSubPrev }}>
+    filterSub, filterSubAtt, filterListSub, setFilterListSub, viewMode, setViewMode, fetchSubForAttendance, deleteSubject, editSubject, subPrev, setSubPrev }}>
       {children}
     </subjectContext.Provider>
   )

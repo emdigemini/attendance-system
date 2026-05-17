@@ -12,38 +12,47 @@ import authContext from "../../context/authContext";
 import studentContext from "../../context/Students/studentContext";
 
 const SubjectList = ({ setClassPrev, setStudentPrev }) => {
-  const { authorization } = useContext(authContext);
-  const { allSubs, setAllSubs, mySubjects, allSubjects, setFilteredSubjects, fetchSubjectForStudent, editSubject } = useContext(subjectContext);
+  const { authorization, user } = useContext(authContext);
+  const { viewMode, setViewMode, mySubjects, allSubjects, setFilteredSubjects, fetchSubjectForStudent, editSubject, fetchAllSubject } = useContext(subjectContext);
 
   useEffect(() => {
-    if(allSubs === 0){
-      if(authorization === 1)
-        fetchSubjectForStudent();
-      else if(authorization === 2)
-        setFilteredSubjects(mySubjects);
-    } else if(allSubs === 1){
-      setFilteredSubjects(allSubjects);
+  if (!user?.id) return;
+
+  if (viewMode === 0) {
+    if (authorization === 1) {
+      fetchSubjectForStudent();
+    } else if (authorization === 2) {
+      // no fetch needed here
+      setFilteredSubjects(mySubjects);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allSubs]);
+  }
+
+  if (viewMode === 1) {
+    fetchAllSubject();
+  }
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [
+  user?.id,
+  viewMode,
+]);
 
   return (
     <div className="flex flex-col gap-6 py-8 w-full">
       <div className="flex gap-2 mx-6 bg-gray-200/50 rounded-lg w-max p-1">
         <button className={`px-6 py-2 rounded-md 
-          ${allSubs === 0 ? "text-black bg-white shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : "text-gray-600"}
-          ${allSubs !== 0 ? "hover:bg-white hover:shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : ""} font-medium transition-all cursor-pointer`}
-          onClick={() => setAllSubs(0)} >
+          ${viewMode === 0 ? "text-black bg-white shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : "text-gray-600"}
+          ${viewMode !== 0 ? "hover:bg-white hover:shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : ""} font-medium transition-all cursor-pointer`}
+          onClick={() => setViewMode(0)} >
           My Subjects
         </button>
         <button className={`px-6 py-2 rounded-md 
-          ${allSubs !== 0 ? "text-black bg-white shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : "text-gray-600"} 
-          ${allSubs === 0 ? "hover:bg-white hover:shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : ""} font-medium transition-all cursor-pointer`}
-          onClick={() => setAllSubs(1)} >
+          ${viewMode !== 0 ? "text-black bg-white shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : "text-gray-600"} 
+          ${viewMode === 0 ? "hover:bg-white hover:shadow-[0px_0px_4px_rgba(0,0,0,0.25)]" : ""} font-medium transition-all cursor-pointer`}
+          onClick={() => setViewMode(1)} >
           All Subjects
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-6 overflow-y-auto pb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-6 overflow-y-auto">
         <SubjectCard setClassPrev={setClassPrev} setStudentPrev={setStudentPrev} />
       </div>
     </div>
