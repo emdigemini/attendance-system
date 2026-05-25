@@ -26,7 +26,7 @@ const Profile = () => {
 };
 
 const EditProfile = () => {
-  const { user, authorization, setFname, setLname, setEmail, setPhoneNumber, setCourse, setYear, setStudentType, setSpecialization, setGraduatedAt, setEmploymentType, saveUserProfile } = useContext(authContext);
+  const { user, authorization, setFname, setLname, setEmail, setPhoneNumber, setCourse, setYear, setStudentType, setSpecialization, setGraduatedAt, setEmploymentType, saveUserProfile, getLocalData, localData } = useContext(authContext);
   const { student } = useContext(studentContext);
 
   const [ editMode, setEditMode ] = useState(false);
@@ -36,13 +36,13 @@ const EditProfile = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
+    getLocalData();
     if(authorization === 1){
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues([
         { label: "Full Name", label1: "First Name", label2: "Last Name", type: "two-input", value: (user?.fname + " " + user?.lname) || "", value1: user?.fname, value2: user?.lname},
         { label: "Email", type: "input", value: user?.email || "" },
         { label: "Phone Number", type: "input", value: user?.phoneNumber || "" },
-        { label: "Course", type: "dropdown", value: student?.course || "",
+        { label: "Course", type: "dropdown", value: user?.profile?.course || "",
           options: [
             "Select Course",
             "BSIT - Information Technology",
@@ -56,12 +56,12 @@ const EditProfile = () => {
             "BTVTED_ET - Electrical Technology",  
           ]
         },
-        { label: "Year", type: "dropdown", value: student?.year || "",
+        { label: "Year", type: "dropdown", value: user?.profile?.year || "",
           options: [
             "Select Year Level", "1st Year", "2nd Year", "3rd Year", "4th Year",
           ]
          },
-        { label: "Student Type", type: "dropdown", value: student?.studentType || "",
+        { label: "Student Type", type: "dropdown", value: user?.profile?.studentType || "",
           options: [
             "Select Student Type", "Regular", "Irregular"
           ]
@@ -98,6 +98,7 @@ const EditProfile = () => {
       ]);
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, student, authorization]);
 
   const uploadPfp = async (file) => {

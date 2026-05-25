@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import authContext from "./authContext";
 import { apiAccount, apiStudent, apiTeacher } from "../lib/axios.js";
 import toast from "react-hot-toast"
@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   // for edit profile
+  const [ localData, setLocalData ] = useState(() => localStorage.getItem("profile"));
   const [ fname, setFname ] = useState("");
   const [ lname, setLname ] = useState("");
   const [ email, setEmail ] = useState("");
@@ -83,22 +84,23 @@ const AuthProvider = ({ children }) => {
     if (authorization === 1) api = apiStudent;
     else if (authorization === 2) api = apiTeacher;
 
+    const payload = {
+      ...(fname && { fname }),
+      ...(lname && { lname }),
+      ...(email && { email }),
+      ...(phoneNumber && { phoneNumber }),
+      ...(course && { course }),
+      ...(year && { year }),
+      ...(studentType && { studentType }),
+      ...(specialization && { specialization }),
+      ...(graduatedAt && { graduatedAt }),
+      ...(employmentType && { employmentType }),
+    };
+
+    if (JSON.stringify(payload) === JSON.stringify(localData)) return;
     setLoading(true);
 
     try {
-      const payload = {
-        fname,
-        lname,
-        email,
-        phoneNumber,
-        course,
-        year,
-        studentType,
-        specialization,
-        graduatedAt,
-        employmentType
-      };
-
       const res = await api.put(
         `/update-info/${user?.id}`,
         payload
@@ -107,13 +109,29 @@ const AuthProvider = ({ children }) => {
       await checkAuth({ showLoading: true });
 
       toast.success(res.data.message);
-
+      getLocalData();
     } catch (err) {
       toast.error(err.response?.data?.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const getLocalData = () => {
+    setLocalData({
+      pfp: user?.pfp || undefined,
+      fname: user?.fname || undefined,
+      lname: user?.lname || undefined,
+      email: user?.email || undefined,
+      phoneNumber: user?.phoneNumber || undefined,
+      course: user?.profile?.course || undefined,
+      year: user?.profile?.year || undefined,
+      studentType: user?.profile?.studentType || undefined,
+      specialization: user?.profile?.specialization || undefined,
+      graduatedAt: user?.profile?.graduatedAt || undefined,
+      employmentType: user?.profile?.employmentType || undefined,
+    });
+  }
 
   useEffect(() => {
     if(!authenticated){
@@ -124,16 +142,29 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if(user?.accountType === "Teacher")
       setAuthorization(2);
-    else if(user?.accountType === "Student")
+    else if(user?.accountType === "Student"){
       setAuthorization(1);
+    }
     else setAuthorization(null);
-  }, [user?.accountType]);
+    setFname(user?.fname);
+    setLname(user?.lname);
+    setEmail(user?.email);
+    setPhoneNumber(user?.phoneNumber);
+    setCourse(user?.profile?.course);
+    setYear(user?.profile?.year);
+    setStudentType(user?.profile?.studentType);
+    setSpecialization(user?.profile?.specialization);
+    setGraduatedAt(user?.profile?.graduatedAt);
+    setEmploymentType(user?.profile?.employmentType);
+  }, [user]);
+
+
 
   return (
     <authContext.Provider value={{ loginAccount, logoutAccount, user, authenticated, loading, 
     checkAuth, setUsername, setPassword, username, password,
     authorization,
-    setFname, setLname, setEmail, setPhoneNumber, setCourse, setYear, setStudentType, setSpecialization, setGraduatedAt, setEmploymentType, saveUserProfile }}>
+    setFname, setLname, setEmail, setPhoneNumber, setCourse, setYear, setStudentType, setSpecialization, setGraduatedAt, setEmploymentType, saveUserProfile, localData, setLocalData, getLocalData }}>
       {children}
     </authContext.Provider>
   )
