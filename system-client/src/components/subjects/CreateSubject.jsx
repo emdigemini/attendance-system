@@ -26,10 +26,6 @@ const CreateSubject = ({ setCreateSubject }) => {
   const { addSubject, setSubjectForm, subjectForm } = useContext(subjectContext);
   const [ onConfirm, setOnConfirm ] = useState(false);
 
-  useEffect(() => {
-    // console.log(subjectForm);
-  }, [subjectForm]);
-
   const submitForm = async () => {
     addSubject();
   }

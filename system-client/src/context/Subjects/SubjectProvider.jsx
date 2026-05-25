@@ -35,8 +35,7 @@ const SubjectProvider = ({ children }) => {
     const toastId = toast.loading("Adding your subject");
     try {
       const res = await apiSubject.post(`/add-subject/${user.id}`, subjectForm);
-      await fetchSubject();
-      await fetchAllSubject();
+      await whereToFetch();
       toast.success(res.data.message, {id: toastId});
     } catch (err) {
       toast.error(err.response?.data?.message, {id: toastId});
@@ -45,12 +44,17 @@ const SubjectProvider = ({ children }) => {
     }
   }
 
+  const whereToFetch = async () => {
+    if (viewMode === 0) await fetchSubject();
+    if (viewMode === 1) await fetchAllSubject();
+  }
+
   const deleteSubject = async (id) => {
     setLoading(true);
     const toastId = toast.loading("Deleting subject...");
     try {
       const res = await apiSubject.delete(`/delete-subject/${id}`);
-      await fetchSubject();
+      await whereToFetch();
       toast.success(res.data.message, {id: toastId});
     } catch (err) {
       toast.error(err.response?.data?.message, {id: toastId});
@@ -64,7 +68,7 @@ const SubjectProvider = ({ children }) => {
     const toastId = toast.loading("Updating subject...");
     try {
       const res = await apiSubject.put(`/edit-subject/${id}`, body);
-      await fetchSubject();
+      await whereToFetch();
       toast.success(res.data.message, {id: toastId});
     } catch (err) {
       toast.error(err.response?.data?.message, {id: toastId});
@@ -187,7 +191,7 @@ const SubjectProvider = ({ children }) => {
     <subjectContext.Provider value={{ setMySubjects, setFilteredSubjects, setSubjectForm, addSubject, fetchAllSubject, 
     fetchSubject, previewSubject, getClassForSubject, fetchSubjectForStudent,
     loading, allSubjects, mySubjects, filteredSubjects, subjectForm, subInfo, classView, attSubject, isOpen, setIsOpen, checkAttendance, setCheckAttendance, attSubjectFilter, setAttSubjectFilter,
-    filterSub, filterSubAtt, filterListSub, setFilterListSub, viewMode, setViewMode, fetchSubForAttendance, deleteSubject, editSubject, subPrev, setSubPrev }}>
+    filterSub, filterSubAtt, filterListSub, setFilterListSub, viewMode, setViewMode, fetchSubForAttendance, deleteSubject, editSubject, subPrev, setSubPrev, whereToFetch }}>
       {children}
     </subjectContext.Provider>
   )
