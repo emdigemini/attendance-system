@@ -7,6 +7,7 @@ export const newSubject = async (req, res) => {
   try {
     const { course, year, acYear, sem, room, name } = req.body;
 
+    const currentYear = currentAcYear();
     const currentSem = currentSemester();
     const clean_room = room?.trim();
     const clean_name = name?.trim();
@@ -15,7 +16,10 @@ export const newSubject = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
 
     if(currentSem !== sem)
-      return res.status(400).json({ message: `Semester does not match the current semester (${currentSem})` });
+      return res.status(400).json({ message: `Semester does not match the current Semester: (${currentSem})` });
+
+    if(currentYear !== acYear)
+      return res.status(400).json({ message: `Academic Year does not match the current Academic Year: (${currentYear})` });
 
     await Subject.create({ teacher_id: req.params.id, course, year, acYear, sem, room: clean_room, name: clean_name });
 
