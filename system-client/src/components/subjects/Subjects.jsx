@@ -98,7 +98,7 @@ const AddSubBtn = ({ setCreateSubject }) => {
 
 const ClassPreview = ({ setClassPrev, setStudentPrev }) => {
   const { subInfo, classView, loading } = useContext(subjectContext);
-
+  console.log(subInfo)
   return (
     <div className="w-full absolute top-0 z-50 h-full md:relative md:w-2/3 border-t md:border-t-0 md:border-l border-gray-200 bg-white">
       <header className="flex justify-between items-start bg-[#c43c2d] text-white px-4 md:px-6 py-4 shadow-sm">
@@ -128,13 +128,27 @@ const ClassPreview = ({ setClassPrev, setStudentPrev }) => {
         <div className="flex flex-col gap-2 overflow-y-auto">
           {loading
             ? <Loading />
-            : classView?.map((c, index) => {
+            : classView?.length > 0
+              ? classView?.map((c, index) => {
               return (
                 <div key={c._id}>
                   <ClassCard c={c} count={index+1} setStudentPrev={setStudentPrev} setClassPrev={setClassPrev} />
                 </div>
               )
             })
+              : <div className="flex items-start gap-4 p-4 bg-amber-50/50 border border-amber-200/60 rounded-xl max-w-2xl mx-auto">
+                <div className="p-2 bg-amber-100 text-amber-800 rounded-lg shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.008v.008H12v-.008Z" />
+                  </svg>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-semibold text-amber-900">No class found.</h4>
+                  <p className="text-sm text-amber-800/90 leading-normal">
+                    No classes are currently available. Please contact your school administrator to set up a new class.
+                  </p>
+                </div>
+              </div>
           }
         </div>
       </main>
