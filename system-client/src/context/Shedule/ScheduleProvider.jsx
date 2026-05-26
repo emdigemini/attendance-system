@@ -10,6 +10,8 @@ const ScheduleProvider = ({ children }) => {
   const { user, authorization } = useContext(authContext);
   const { classList } = useContext(classContext);
   const { mySubjects } = useContext(subjectContext);
+  const [ currentSem, setCurrentSem ] = useState(null);
+  const [ currentAcYear, setCurrentAcYear ] = useState(null);
   const [ loading, setLoading ] = useState(true);
   const [ formData, setFormData ] = useState({
     date: '',
@@ -118,7 +120,8 @@ const ScheduleProvider = ({ children }) => {
         params: 
           {subIDs: subjectIDs}
       });
-
+      setCurrentAcYear(res.data.currentACYear);
+      setCurrentSem(res.data.currentSem);
       setMySched(res.data.schedule);
     } catch (err) {
       toast.error(err.response?.data?.message);
@@ -138,7 +141,7 @@ const ScheduleProvider = ({ children }) => {
 
     return (
     <scheduleContext.Provider value={{ loading, formData, setFormData, newSchedule, mySched, editSchedule, deleteSchedule, todaySched, getTodaySchedule,
-    getTeacherSchedule, getStudentSchedule
+    getTeacherSchedule, getStudentSchedule, currentSem, currentAcYear
      }}>
       { children }
     </scheduleContext.Provider>

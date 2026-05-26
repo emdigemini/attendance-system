@@ -13,7 +13,7 @@ import classContext from '../../context/Classrooms/classContext';
 
 export const ClassSchedule = () => {
   const { user, authorization } = useContext(authContext);
-  const { mySubjects } = useContext(subjectContext);
+  const { mySubjects, whereToFetch } = useContext(subjectContext);
   const { classList } = useContext(classContext);
   const { 
     getTodaySchedule, mySched, getTeacherSchedule, getStudentSchedule
@@ -28,12 +28,12 @@ export const ClassSchedule = () => {
         if(!classList || !mySubjects) return
         getStudentSchedule();
       } else if(authorization === 2){
-        if(!mySubjects) return
+        whereToFetch();
         getTeacherSchedule();
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, authorization, classList, mySubjects]);
+  }, [user?.id, authorization, classList]);
 
   useEffect(() => {
       if(authorization === 1 || authorization === 2){
@@ -164,7 +164,7 @@ const TopNavigation = ({ dashboard, currentDate, monthName, navMonth }) => {
   )
 }
 export const CalendarGrid = ({ currentDate }) => {
-  const { mySched } = useContext(scheduleContext);
+  const { mySched, currentSem, currentAcYear } = useContext(scheduleContext);
   const [ viewSub, setViewSub ] = useState(null);
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
@@ -189,6 +189,21 @@ export const CalendarGrid = ({ currentDate }) => {
       const current = new Date(year, month, d);
       current.setHours(0, 0, 0, 0);
 
+      let expectedAcYear;
+      let expectedSem;
+      if (month >= 0 && month <= 4) {
+        const start = String(year - 1).slice(-2);
+        const end = String(year).slice(-2);
+        expectedAcYear = `${start}/${end}`;
+      } else if (month >= 5 && month <= 11) {
+        const start = String(year).slice(-2);
+        const end = String(year + 1).slice(-2);
+        expectedAcYear = `${start}/${end}`;
+      }
+
+      if (month >= 0 && month <= 4) expectedSem = "2nd sem";
+      else if (month >= 5 && month <= 11) expectedSem = "1st sem";
+
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
@@ -198,8 +213,8 @@ export const CalendarGrid = ({ currentDate }) => {
       const dayOfWeek = current.getDay();
 
       const checkIfHasClass = mySched?.some(s => s.date === dayOfWeek);
-      const subPerClass = mySched?.filter(s => s.date === dayOfWeek);
 
+      const subPerClass = mySched?.filter(s => s.date === dayOfWeek);
       const hasClass = checkIfHasClass && !isPast;
 
       days.push({
@@ -207,7 +222,9 @@ export const CalendarGrid = ({ currentDate }) => {
         isToday,
         hasClass,
         subPerClass,
-        key: `day-${d}`
+        key: `day-${d}`,
+        expectedAcYear,
+        expectedSem
       });
     }
 
@@ -235,6 +252,10 @@ export const CalendarGrid = ({ currentDate }) => {
       ))}
       
       {calendarDays.map((item) => {
+        const isSameAY = item.subPerClass?.some(s => s.subject_id.acYear === item.expectedAcYear); 
+        const isSameSem = item.subPerClass?.some(s => s.subject_id.sem === item.expectedSem); 
+
+        const onlyAvailSub = viewSub?.subPerClass?.filter(s => s.subject_id.acYear === item.expectedAcYear && s.subject_id.sem === item.expectedSem); 
 
         return (
           <div 
@@ -260,7 +281,7 @@ export const CalendarGrid = ({ currentDate }) => {
             {item.day}
             
             {/* Subject List */}
-            {item.hasClass && viewSub?.day === item.day
+            {(item.hasClass && isSameAY && isSameSem) && viewSub?.day === item.day
               && 
             <div className="absolute bottom-1/2 left-1/2 -translate-x-1/2 mb-2 z-30 
               w-[35vw] max-w-55 p-3 rounded-xl border border-gray-100 
@@ -275,7 +296,7 @@ export const CalendarGrid = ({ currentDate }) => {
               
               <div className="max-h-40 overflow-y-auto pr-1 space-y-3 custom-scrollbar text-left">
                 {viewSub?.subPerClass?.length === 0 && <p className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-800 leading-tight">No schedule for this date.</p>}
-                {viewSub?.subPerClass?.map(s => {
+                {onlyAvailSub?.map(s => {
                   const isFinish = getCurrentMinutes() > isoToMinutes(s.timeTo);
 
                   return (
@@ -302,7 +323,7 @@ export const CalendarGrid = ({ currentDate }) => {
 
             {/* Status Dots */}
             <div className="absolute bottom-1 md:bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-              {item.hasClass && <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-yellow-500 animate-pulse" />}
+              {(item.hasClass && isSameAY && isSameSem) && <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-yellow-500 animate-pulse" />}
             </div>
           </div>
         )

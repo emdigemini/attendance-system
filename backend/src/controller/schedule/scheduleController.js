@@ -1,7 +1,7 @@
 import Schedule from "../../models/schedule/Schedule.js";
 import Class from "../../models/Class.js";
 import Subject from "../../models/subjects/Subject.js";
-import { currentSemester, sliceToOne } from "../../lib/utils.js";
+import { currentAcYear, currentSemester, sliceToOne } from "../../lib/utils.js";
 
 export const newSchedule = async (req, res) => {
   try {
@@ -18,8 +18,8 @@ export const newSchedule = async (req, res) => {
     if(!mySub)
       return res.status(404).json({ message: "Failed to create, subject not found." });
 
-    if(currentSem !== mySub.sem)
-      return res.status.json({ message: `Semester does not match the current Semester: (${currentSem}) ` });
+    // if(currentSem !== mySub?.sem)
+    //   return res.status(400).json({ message: `Semester does not match the current Semester: (${currentSem}) ` });
 
     const class_name = `${sliceToOne(classes.year)}${classes.block}`;
 
@@ -98,6 +98,7 @@ export const getStudentSchedule = async (req, res) => {
 export const getTeacherSchedule = async (req, res) => {
   try {
     const teacher_id = req.params.id;
+    const currentSem = currentSemester();
     let subjectIDs = req.query['subIDs[]'];
 
     subjectIDs = Array.isArray(subjectIDs)
@@ -109,7 +110,7 @@ export const getTeacherSchedule = async (req, res) => {
       subject_id: { $in: subjectIDs } 
     }).populate("subject_id").sort({ timeFrom: 1 });
 
-    res.status(200).json({ schedule });
+    res.status(200).json({ schedule, currentSem });
   } catch (err) {
     console.log("Error in getTeacherSchedule controller", err);
     res.status(500).json({ message: "Something went wrong." });

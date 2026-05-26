@@ -45,8 +45,16 @@ const SubjectProvider = ({ children }) => {
   }
 
   const whereToFetch = async () => {
-    if (viewMode === 0) await fetchSubject();
-    if (viewMode === 1) await fetchAllSubject();
+    switch (authorization) {
+      case 1:
+        if (viewMode === 0) await fetchSubjectForStudent();
+        if (viewMode === 1) await fetchAllSubject();
+        break;
+      case 2:
+        if (viewMode === 0) await fetchSubject();
+        if (viewMode === 1) await fetchAllSubject();
+        break;
+    }
   }
 
   const deleteSubject = async (id) => {
