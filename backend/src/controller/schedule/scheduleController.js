@@ -1,7 +1,7 @@
 import Schedule from "../../models/schedule/Schedule.js";
 import Class from "../../models/Class.js";
 import Subject from "../../models/subjects/Subject.js";
-import { sliceToOne } from "../../lib/utils.js";
+import { currentSemester, sliceToOne } from "../../lib/utils.js";
 
 export const newSchedule = async (req, res) => {
   try {
@@ -10,12 +10,16 @@ export const newSchedule = async (req, res) => {
 
     const classes = await Class.findOne({_id: class_id});
     const mySub = await Subject.findOne({_id: subject_id});
+    const currentSem = currentSemester();
 
     if(!classes)
       return res.status(404).json({ message: "Failed to create, class not found." });
 
     if(!mySub)
       return res.status(404).json({ message: "Failed to create, subject not found." });
+
+    if(currentSem !== mySub.sem)
+      return res.status.json({ message: `Semester does not match the current Semester: (${currentSem}) ` });
 
     const class_name = `${sliceToOne(classes.year)}${classes.block}`;
 
