@@ -15,9 +15,8 @@ export const currentSemester = () => {
   const month = new Date().getMonth() + 1;
   const day = new Date().getDate();
 
-  if((month >= 1 && month <= 4) || (month === 5 && day <= 14)) return "2nd sem";
-  if((month >= 7 && month <= 11) || (month === 12 && day <= 14)) return "1st sem";
-  else return "Sem break";
+  if(month >= 1 && month <= 6) return "2nd sem";
+  if(month >= 7 && month <= 12) return "1st sem";
 
   return null;
 }
