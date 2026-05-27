@@ -17,7 +17,6 @@ export const newSubject = async (req, res) => {
 
     // if(currentSem !== sem)
     //   return res.status(400).json({ message: `Semester does not match the current Semester: (${currentSem})` });
-
     // if(currentYear !== acYear)
     //   return res.status(400).json({ message: `Academic Year does not match the current Academic Year: (${currentYear})` });
 
