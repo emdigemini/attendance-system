@@ -20,7 +20,7 @@ import rateLimiter from "./middleware/rateLimiter.js";
 import authentication from "./middleware/authentication.js";
 
 const app = express();
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5005;
 const __dirname = path.resolve();
 const allowedOrigins = process.env.MY_LOCAL_HOST 
   ? process.env.MY_LOCAL_HOST.split(",") : [];
