@@ -36,6 +36,11 @@ if(process.env.NODE_ENV !== "production"){
     ],
     credentials: true 
   }))
+} else {
+  app.use(cors({
+    origin: process.env.CLIENT_SIDE,
+    credentials: true 
+  }))
 }
 app.use(rateLimiter);
 
