@@ -95,7 +95,7 @@ const ClassPreview = ({ classId, setClassPrev }) => {
         </div>
         <div className="flex flex-col gap-2 overflow-y-auto pb-10">
           {classStudents?.length === 0 ? (
-            <p className="text-center py-10 text-gray-400 italic">No students found. Please remind your students to join their designated year and block to ensure their attendance is properly recorded.</p>
+            <p className="text-center py-10 text-gray-400 italic">No students found.</p>
           ) : (
             classStudents?.map((c, index) => (
               <StudentCard key={index} c={c} count={index+1} />

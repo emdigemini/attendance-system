@@ -156,7 +156,7 @@ const StudentList = () => {
   }, [attStudentsFilter]);
 
   if (loading) return <tr><td className="p-10 text-center"><Loading val="students" /></td></tr>;
-  if (attStudentsFilter?.length === 0) return <tr><td className="p-10 text-center text-gray-500 italic">No students found.</td></tr>;
+  if (attStudentsFilter?.length === 0) return <tr><td className="p-10 text-center text-gray-500 italic">No students found. Please remind your students to join their designated year and block to ensure their attendance is properly recorded.</td></tr>;
 
   return (
     <>
