@@ -1,8 +1,9 @@
 import { useCallback, useState } from "react"
 import authContext from "./authContext";
-import { apiAccount, apiStudent, apiTeacher } from "../lib/axios.js";
+import { BASE_URL, apiAccount, apiStudent, apiTeacher } from "../lib/axios.js";
 import toast from "react-hot-toast"
 import { useEffect } from "react";
+import axios from "axios";
 
 const AuthProvider = ({ children }) => {
   const [ user, setUser ] = useState(null);
@@ -24,6 +25,8 @@ const AuthProvider = ({ children }) => {
   const [ specialization, setSpecialization ] = useState("");
   const [ graduatedAt, setGraduatedAt ] = useState("");
   const [ employmentType, setEmploymentType ] = useState("");
+
+  const [ isServerLoaded, setIsServerLoaded ] = useState(false);
 
   const loginAccount = async () => {
     setLoading(true);
@@ -134,6 +137,20 @@ const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    const runServer = async () => {
+      try {
+        await axios.get(`${BASE_URL}/health`);
+        setIsServerLoaded(true);
+      } catch (err) {
+        setIsServerLoaded(false);
+      }
+    };
+    
+    runServer();
+  }, []);
+
+
+  useEffect(() => {
     if(!authenticated){
       checkAuth({ showLoading: true });
     }
@@ -163,7 +180,7 @@ const AuthProvider = ({ children }) => {
   return (
     <authContext.Provider value={{ loginAccount, logoutAccount, user, authenticated, loading, 
     checkAuth, setUsername, setPassword, username, password,
-    authorization,
+    authorization, isServerLoaded,
     setFname, setLname, setEmail, setPhoneNumber, setCourse, setYear, setStudentType, setSpecialization, setGraduatedAt, setEmploymentType, saveUserProfile, localData, setLocalData, getLocalData }}>
       {children}
     </authContext.Provider>

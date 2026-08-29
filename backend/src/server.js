@@ -38,6 +38,20 @@ if(process.env.NODE_ENV !== "production"){
     credentials: true 
   }))
 }
+
+// start backend server
+app.get("/", (_, res) => {
+  res.json({
+    message: "AcadTrack API is running...",
+  });
+});
+
+app.get("/api/health", (_, res) => {
+  res.json({
+    status: "OK",
+  });
+});
+
 app.use(rateLimiter);
 
 // routes 

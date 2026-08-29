@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const server = import.meta.env.VITE_APP_SERVER;
-const BASE_URL = import.meta.env.VITE_MODE === "development" 
+export const BASE_URL = import.meta.env.VITE_MODE === "development" 
   ? "http://localhost:5005/api" 
   : `${server}/api`;
 
