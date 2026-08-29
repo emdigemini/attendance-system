@@ -139,7 +139,9 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const runServer = async () => {
       try {
-        await axios.get(`${BASE_URL}/health`);
+        await axios.get(`${BASE_URL}/health`, {
+          withCredentials: true,
+        });
         setIsServerLoaded(true);
       } catch (err) {
         setIsServerLoaded(false);

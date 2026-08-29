@@ -146,7 +146,7 @@ export const loginAccount = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: DAYS * 24 * 60 * 60 * 1000
     });
 
@@ -176,7 +176,7 @@ export const logoutAccount = async (_, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "lax"
+      sameSite: "none"
     });
 
     res.status(200).json({ message: "Logged out" });
