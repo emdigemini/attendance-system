@@ -13,7 +13,7 @@ import subjectContext from "../../context/Subjects/subjectContext";
 import attendanceContext from "../../context/Attendance/attendanceContext.jsx";
 
 /* icons */
-import { ChessKing, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { FiRefreshCcw } from "react-icons/fi";
 import Loading from "../Loading.jsx";
 import authContext from "../../context/authContext.jsx";
@@ -52,6 +52,7 @@ const Header = () => {
       </div>
       
       <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6">
+        <Dropdown type="filter-subAtt" dropdownType={{sem: ["1st sem", "2nd sem"]}} />
         <div 
           className="cursor-pointer hover:bg-gray-500/10 p-2 rounded-full transition-colors"
           onClick={() => window.location.reload()}
@@ -108,7 +109,6 @@ const ClassSubjectList = () => {
     <div className="w-full space-y-4">
       {attSubjectFilter?.length === 0 ? (
         <div className="flex flex-col items-center w-full justify-center p-6 sm:p-12 mt-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50">
-          {/* ... SVG remains the same ... */}
           <h3 className="text-lg font-semibold text-gray-700">No Subjects Found</h3>
           <p className="text-gray-500 text-center max-w-xs mt-2 mb-6 text-sm">
             Please create a new subject or refresh the page to update the list.

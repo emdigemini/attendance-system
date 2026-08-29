@@ -133,7 +133,7 @@ export const getSubjectForAttendance = async (req, res) => {
     const currentSem = currentSemester();
     const currentACYear = currentAcYear();
 
-    const subject = await Subject.find({ teacher_id: mySubjectID, sem: currentSem, acYear: currentACYear })
+    const subject = await Subject.find({ teacher_id: mySubjectID, })
     .sort({ acYear: -1, sem: -1 })
     const allClassIDs = subject.flatMap(s => s.totalClasses);
 
