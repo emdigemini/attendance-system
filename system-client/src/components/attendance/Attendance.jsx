@@ -52,6 +52,7 @@ const Header = () => {
       </div>
       
       <div className="flex items-center justify-between md:justify-end gap-4 md:gap-6">
+        <Dropdown type="filter-subAtt" dropdownType={{acYear: ["26/27", "25/26"]}} />
         <Dropdown type="filter-subAtt" dropdownType={{sem: ["1st sem", "2nd sem"]}} />
         <div 
           className="cursor-pointer hover:bg-gray-500/10 p-2 rounded-full transition-colors"
