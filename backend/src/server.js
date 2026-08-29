@@ -17,13 +17,9 @@ import attendanceRoutes from "./routes/attendanceRoutes.js";
 import scheduleRoutes from "./routes/scheduleRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js"
 import rateLimiter from "./middleware/rateLimiter.js";
-import authentication from "./middleware/authentication.js";
 
 const app = express();
 const PORT = process.env.PORT || 5005;
-const __dirname = path.resolve();
-const allowedOrigins = process.env.MY_LOCAL_HOST 
-  ? process.env.MY_LOCAL_HOST.split(",") : [];
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -55,34 +51,6 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/user", uploadRoutes);
 app.use("/api", clearCookie);
-
-if (process.env.NODE_ENV === "production") {
-
-    const renderRoot = __dirname.includes('src') 
-        ? __dirname.split('src')[0] + 'src' 
-        : __dirname;
-
-    const adminPath = path.join(renderRoot, "system-admin", "dist");
-    const clientPath = path.join(renderRoot, "system-client", "dist");
-
-    console.log("--- RENDER PATH DEBUG ---");
-    console.log("Current Dir:", __dirname);
-    console.log("Detected Root:", renderRoot);
-    console.log("Final Admin Path:", adminPath);
-    console.log("Final Client Path:", clientPath);
-    console.log("-------------------------");
-
-    app.use("/admin", express.static(adminPath));
-    app.use("/", express.static(clientPath));
-
-    app.get(/^\/admin/, (req, res) => {
-        res.sendFile(path.join(adminPath, "index.html"));
-    });
-
-    app.get(/.*/, (req, res) => {
-        res.sendFile(path.join(clientPath, "index.html"));
-    });
-}
 
 ( async () => {
   try {
