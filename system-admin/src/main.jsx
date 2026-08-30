@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router basename='/admin'>
+    <Router>
       <AdminProvider>
         <AccountProvider>
           <ClassProvider>
