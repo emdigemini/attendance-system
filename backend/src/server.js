@@ -34,7 +34,7 @@ if(process.env.NODE_ENV !== "production"){
   }))
 } else {
   app.use(cors({
-    origin: process.env.CLIENT_SIDE,
+    origin: [process.env.CLIENT_SIDE, process.env.ADMIN_SIDE],
     credentials: true 
   }))
 }
