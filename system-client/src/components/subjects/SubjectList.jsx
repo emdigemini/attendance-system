@@ -74,7 +74,7 @@ const SubjectCard = ({ setClassPrev, setStudentPrev }) => {
     <>
       {filteredSubjects?.length === 0 && 
       (authorization === 1
-        ? <p>No subjects found. Add a subject or refresh the page.</p>
+        ? <p>No subjects found. No subjects found. Add a subject to start tracking your class schedule.</p>
         : <p>No subjects found. Create a new subject or refresh the page.</p>)}
       {filteredSubjects?.map(s => {
         return (
